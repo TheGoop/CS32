@@ -23,7 +23,7 @@ Map::Map(int length)
 {
     if (length < 0)
     {
-        exit(0);
+        exit(3);
     }
     m_size = 0;
     m_maxSize = length;
@@ -32,6 +32,7 @@ Map::Map(int length)
 
 Map::Map(const Map &other)
 {
+    m_array = new Dict[other.m_size];
     this->m_size = other.m_size;
     this->m_maxSize = other.m_maxSize;
     for (int i = 0; i < m_size; i++)
@@ -40,7 +41,7 @@ Map::Map(const Map &other)
     }
 }
 
-/**Map& Map::operator=(const Map &other)
+Map& Map::operator=(const Map &other)
 {
     if (this == &other)
     {
@@ -48,7 +49,7 @@ Map::Map(const Map &other)
     }
     this->m_size = other.m_size;
     this->m_maxSize = other.m_maxSize;
-    this->~Map();
+    delete [] m_array;
     m_array = new Dict[m_maxSize];
     for (int i = 0; i < m_maxSize; i++)
     {
@@ -56,7 +57,7 @@ Map::Map(const Map &other)
     }
     return *this;
     
-}*/
+}
 
 
 
@@ -207,8 +208,12 @@ Map::~Map()
     delete [] m_array;
 }
 
-int main()
+void Map::dump() const
 {
-    Map m;
-    std::cout << "done";
+    cerr << "--------" << endl;
+    for(int i = 0; i < m_size; i++)
+    {
+        cerr << "k: " << m_array[i].key << " , v: " << m_array[i].val << endl;
+    }
+    cerr << "--------" << endl;
 }

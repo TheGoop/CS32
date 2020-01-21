@@ -7,25 +7,60 @@
 //
 
 #include <stdio.h>
+#include <iostream>
 #include "newMap.h"
+using namespace std;
 
 int main()
 {
-    Map a(1000);   // a can hold at most 1000 key/value pairs
-    Map b(5);      // b can hold at most 5 key/value pairs
-    Map c;         // c can hold at most DEFAULT_MAX_ITEMS key/value pairs
-    //KeyType k[6] = { a list of six distinct values of the appropriate type };
-    //ValueType v  = a value of the appropriate type;
+    Map m;
+    
+    assert(m.empty() == true);
+    assert(m.size() == 0);
+    
+    ValueType v = 5;
+    m.insert("ak", v);
+    
+    v = 900;
+    
+    assert ( m.get("hr", v) == false && v == 900);
+    
+    assert(m.size() == 1);
+    
+    m.insert("xyz", 9876.5);
+    assert (m.size() == 2);
+    
+    KeyType k = "hr";
+    m.dump();
+    assert(m.get(0, k, v) && k == "ak" && v == 5);
+    
+    Map g(m);
+    g.dump();
+    assert (g.empty() != true);
+    assert (g.size() == 2);
+    
+    Map n = g;
+    n.dump();
+    assert (n.empty() != true);
+    assert (n.size() == 2);
+    
+    
+    assert(n.contains("ak"));
+    
+    
+    n.insertOrUpdate("small", 613);
+    assert(n.get(2, k, v) && k == "small" && v == 613);
+    
+    
+    n.insertOrUpdate("small", 813);
+    assert(n.get(2, k, v) && k == "small" && v == 813);
+    
+    assert(n.contains("small"));
+    
+    
+    cout << "Passed all tests" << endl;
+    Map endProgem(-1);
 
-      // No failures inserting pairs with 5 distinct keys into b
-    for (int n = 0; n < 5; n++)
-        assert(b.insert(k[n], v));
 
-      // Failure if we try to insert a pair with a sixth distinct key into b
-    assert(!b.insert(k[5], v));
 
-      // When two Maps' contents are swapped, their capacities are swapped
-      // as well:
-    a.swap(b);
-    assert(!a.insert(k[5], v)  &&  b.insert(k[5], v));
 }

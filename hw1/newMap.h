@@ -87,6 +87,7 @@ class Map
     void swap(Map& other);
       // Exchange the contents of this map with the other one.
     
+    void dump() const;
     
     void printAll();
     
