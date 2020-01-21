@@ -1,14 +1,15 @@
 //
-//  Map.h
+//  newMap.h
 //  map
 //
-//  Created by Akshay Gupta on 1/19/20.
+//  Created by Akshay Gupta on 1/20/20.
 //  Copyright © 2020 hw1. All rights reserved.
 //
 
-#ifndef Map_h
-#define Map_h
+#ifndef newMap_h
+#define newMap_h
 
+#include <stdio.h>
 #include <string>
 
 using KeyType = std::string;
@@ -18,10 +19,16 @@ const int DEFAULT_MAX_ITEMS = 240;
 class Map
 {
   public:
-    Map(): m_size(0) {};   // Create an empty map (i.e., one with no key/value pairs)
+    Map();   // Create an empty map (i.e., one with no key/value pairs)
 
+    Map(int length);
+    
+    Map(const Map &other);
+    
+    Map& operator = (const Map &other);
+    
     //DONE
-    bool empty() const;  // Return true if the map is empty, otherwise false.
+    bool empty() const;  // Return true if *the map is empty, otherwise false.
 
     //DONE
     int size() const;    // Return the number of key/value pairs in the map.
@@ -80,7 +87,10 @@ class Map
     void swap(Map& other);
       // Exchange the contents of this map with the other one.
     
-    void dump() const;
+    
+    void printAll();
+    
+    ~Map();
     
     private:
         struct Dict
@@ -89,8 +99,9 @@ class Map
             ValueType val;
         };
         int m_size;
-        Dict m_array[DEFAULT_MAX_ITEMS];
+        int m_maxSize;
+        Dict* m_array;
 };
 
 
-#endif /* Map_h */
+#endif /* newMap_hpp */
