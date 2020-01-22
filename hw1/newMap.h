@@ -37,7 +37,7 @@ class Map
     bool insert(const KeyType& key, const ValueType& value);
       // If key is not equal to any key currently in the map, and if the
       // key/value pair can be added to the map, then do so and return true.
-    // Otherwise, m*ake no change to the map and return false (indicating
+      // Otherwise, make no change to the map and return false (indicating
       // that either the key is already in the map, or the map has a fixed
       // capacity and is full).
 
@@ -88,8 +88,6 @@ class Map
       // Exchange the contents of this map with the other one.
     
     void dump() const;
-    
-    void printAll();
     
     ~Map();
     

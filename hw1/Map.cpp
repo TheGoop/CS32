@@ -15,8 +15,7 @@ using namespace std;
 bool Map::empty() const
 {
     //returns if map is empty
-    bool isEmpty = m_size == 0;
-    return (isEmpty);
+    return (m_size == 0);
 }
 
 int Map::size() const
@@ -141,14 +140,20 @@ bool Map::insertOrUpdate(const KeyType& key, const ValueType& value)
 
 void Map::swap(Map& other)
 {
+
+    //get the largest m_size to prevent from overwriting actual values
     int max = this->m_size > other.m_size  ?  this->m_size : other.m_size;
+    
+    
     for (int i = 0; i < max; i++)
     {
+        //swap array items
         Dict tmp = this->m_array[i];
         this->m_array[i] = other.m_array[i];
         other.m_array[i] = tmp;
     }
     
+    //swap sizes
     int tmpSize = this->m_size;
     this->m_size = other.m_size;
     other.m_size = tmpSize;

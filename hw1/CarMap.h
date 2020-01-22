@@ -11,6 +11,7 @@
 #define CarMap_h
 
 #include <stdio.h>
+#include <string>
 #include "Map.h"
 
 class CarMap

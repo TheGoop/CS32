@@ -18,7 +18,7 @@ const int DEFAULT_MAX_ITEMS = 240;
 class Map
 {
   public:
-    Map(): m_size(0) {};   // Create an empty map (i.e., one with no key/value pairs)
+    Map() {};   // Create an empty map (i.e., one with no key/value pairs)
 
     //DONE
     bool empty() const;  // Return true if the map is empty, otherwise false.
@@ -88,7 +88,7 @@ class Map
             KeyType key;
             ValueType val;
         };
-        int m_size;
+        int m_size = 0;
         Dict m_array[DEFAULT_MAX_ITEMS];
 };
 

@@ -31,7 +31,14 @@ int main()
     m.print();
     cout << "---" << endl;
     
+    assert(m.miles("sm") == -1);
+    assert(m.miles("ak") == 5.2);
+    assert(m.miles("br") == 0);
+    assert(m.miles("hr") == 0);
+    
     assert(m.drive("br",10.4) == true);
+    assert(m.drive("sm",10.4) == false);
+    assert(m.fleetSize() == 3);
     m.print();
     cout << "---" << endl;
     

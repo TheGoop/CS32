@@ -6,9 +6,11 @@
 //  Copyright © 2020 hw1. All rights reserved.
 //
 
+#include <stdio.h>
 #include "newMap.h"
 #include <string>
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
 
@@ -21,10 +23,12 @@ Map::Map()
 
 Map::Map(int length)
 {
+    //if the map is instanciated with a negative amounts of items, quits program
     if (length < 0)
     {
         exit(3);
     }
+    //defines member variables
     m_size = 0;
     m_maxSize = length;
     m_array = new Dict[m_maxSize];
@@ -32,9 +36,12 @@ Map::Map(int length)
 
 Map::Map(const Map &other)
 {
-    m_array = new Dict[other.m_size];
+    //makes new array of other's size
+    m_array = new Dict[other.m_maxSize];
+    //adopts others items
     this->m_size = other.m_size;
     this->m_maxSize = other.m_maxSize;
+    //loads other's m_array items
     for (int i = 0; i < m_size; i++)
     {
         this->m_array[i] = other.m_array[i];
@@ -43,23 +50,25 @@ Map::Map(const Map &other)
 
 Map& Map::operator=(const Map &other)
 {
+    //if they're the same, just return
     if (this == &other)
     {
         return *this;
     }
+    //if not same, change variables to be same as other
     this->m_size = other.m_size;
     this->m_maxSize = other.m_maxSize;
+    //dynamically delete the original array
     delete [] m_array;
+    //create and load new one
     m_array = new Dict[m_maxSize];
-    for (int i = 0; i < m_maxSize; i++)
+    for (int i = 0; i < m_size; i++)
     {
         this->m_array[i] = other.m_array[i];
     }
     return *this;
     
 }
-
-
 
 bool Map::empty() const
 {
@@ -89,10 +98,11 @@ bool Map::contains(const KeyType& key) const
     return false;
 }
 
-bool Map::insert(const KeyType& key, const ValueType& val)
+
+bool Map::insert(const KeyType& key, const ValueType& value)
 {
     //if there are already too many items
-    if (m_size >= DEFAULT_MAX_ITEMS)
+    if (m_size >= m_maxSize)
     {
         return false;
     }
@@ -104,7 +114,7 @@ bool Map::insert(const KeyType& key, const ValueType& val)
     
     //if conditions are valid, append key and val
     m_array[m_size].key = key;
-    m_array[m_size].val = val;
+    m_array[m_size].val = value;
     m_size++; //increment size counter
     return true;
 }
@@ -142,6 +152,7 @@ bool Map::get(const KeyType& key, ValueType& value) const
 bool Map::erase(const KeyType& key)
 {
     //iterate through map looking for matching key
+    
     for (int i = 0; i < m_size; i++)
     {
         //if matching key
@@ -190,24 +201,29 @@ bool Map::insertOrUpdate(const KeyType& key, const ValueType& value)
 
 void Map::swap(Map& other)
 {
-    int max = this->m_size > other.m_size  ?  this->m_size : other.m_size;
-    for (int i = 0; i < max; i++)
-    {
-        Dict tmp = this->m_array[i];
-        this->m_array[i] = other.m_array[i];
-        other.m_array[i] = tmp;
-    }
+    //switch the sizes
+    int tmpSize = other.m_size;
+    other.m_size = this->m_size;
+    this->m_size = tmpSize;
     
-    int tmpSize = this->m_size;
-    this->m_size = other.m_size;
-    other.m_size = tmpSize;
+    //switch the maxSizes
+    int tmpmaxSize = other.m_maxSize;
+    other.m_maxSize = this->m_maxSize;
+    this->m_maxSize = tmpmaxSize;
+    
+    //swap the arrays by pointer
+    Dict *tmp = other.m_array;
+    other.m_array = this->m_array;
+    this->m_array = tmp;
 }
 
+//dynamically delete the array
 Map::~Map()
 {
     delete [] m_array;
 }
 
+//for testing purposes, prints contents of array
 void Map::dump() const
 {
     cerr << "--------" << endl;
