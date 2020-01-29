@@ -1,0 +1,292 @@
+
+1. Linked List Implementation:
+My linked list is circular and utilizes a dummy head node. The contents of the node class include a key, value, a pointer to the next node, and a pointer to the previous node allowing us to go backwards in the linked list. The latest nodes are inserted at the beginning of the linked list, with the dummy head node's next pointing to the latest inserted node.
+
+2. Pseudocode
+
+Copy Constructor:
+    create dummy head variable
+    if the thing we are copying is empty
+        end
+    iterate through other
+        insert node to new list
+
+
+Assignment Operator:
+    Copy construct temp
+    Swap temp and the list
+    return the list
+    
+
+Destructor:
+    if list is empty
+        delete head
+        quit
+
+    iterate through list
+    set temp variable = to next value
+    delete curr value
+    set curr to next value
+
+    delete the final current value
+
+
+
+
+
+bool insert(const KeyType& key, const ValueType& value)
+    if doesn't have key
+        create a node of the key and value
+        if the list is empty
+            point head to node
+            point prev of node to head
+            point node to head
+            size increment
+            return true
+        
+        if not empty
+        copy first element of list
+        point back of first element to node
+        point head to node
+        point node to former first element
+        point back of node to head
+        increment size
+        return true
+        
+    return false
+
+
+
+bool update(const KeyType& key, const ValueType& value)
+    if it doesn't have the key
+        return false
+
+    repeatedly:
+        search for matching key
+            if found, update its value
+            return true
+    
+    return false if somehow isn't found
+
+
+bool insertOrUpdate(const KeyType& key, const ValueType& value)
+    try updating the value
+        if works, return true
+    
+    return whether inserting works or not
+
+
+bool erase(const KeyType& key)
+    if list doesn't have key we want to remove
+        return false
+    iterate through list
+        if we reach the desired node with key
+            if something is in front of the desired node
+                set value behind desired node's next value to the value in front of desired node
+                delete the desired node
+                deincrement the size
+                return true
+            if nothing in front of the desired node
+                set the previous node's next to nullptr
+                delete the desired node
+                deincrement the size
+                return true
+    return false if we don't find the key
+
+
+bool contains(const KeyType& key) const
+    if the list is empty
+        return false, doesn't have the key we want
+        
+    iterate through list
+        if we find node with key
+            return true
+    
+    return false if its never found
+
+
+
+bool get(const KeyType& key, ValueType& value) const
+    if list doesn't have key or is empty
+        return false
+        
+    iterate through list
+        if node has the key we want
+            update our value parameter to the node's value
+            return true
+    return false
+
+
+bool get(int i, KeyType& key, ValueType& value) const
+    if i is not in the bounds e.g. is < 0 or >= size
+        return false
+    
+    if the list is empty
+        return false
+        
+    iterate through the list
+        when we reach desired index
+            update key and value params
+            return true
+    
+    return false if not found
+
+
+
+void swap(Map& other)
+    swap the other's size and this instance size
+    swap the other's head and this instance head
+
+
+//
+//  testMap.cpp
+//  proj2
+//
+//  Created by Akshay Gupta on 1/28/20.
+//  Copyright © 2020 proj2. All rights reserved.
+//
+
+#include <iostream>
+using namespace std;
+#include "Map.h"
+#include <cassert>
+
+
+
+int main() {
+    // insert code here...
+    Map m;
+    assert(m.size()==0);
+    assert(m.empty());
+    
+    
+    KeyType key = "this";
+    ValueType value = 99.2;
+    assert(!m.get(key, value) && value == 99.2);
+    assert(!m.erase(key));
+    assert(!m.contains(key));
+    assert(!m.get(5, key, value));
+    assert(!m.update(key, value));
+    assert(m.size()==0);
+    assert(m.empty());
+    //all empty cases pass by this point
+    
+    m.insert("ab", 5.4);
+    assert(!m.empty());
+    assert(m.size()==1);
+    
+    assert(m.contains("ab"));
+    
+    
+    m.insert("ab", 5.4);
+    assert(!m.empty());
+    assert(m.size()==1);
+    
+    
+    assert(m.get(0, key, value));
+    assert(key == "ab" && value == 5.4);
+    
+    assert(!m.get("not in the list", value));
+    assert(value == 5.4);
+    
+    key = "ba";
+    value = 6.4;
+    assert(m.insertOrUpdate( key, value));
+    
+    assert(m.size() == 2);
+    
+    assert(m.update(key, 7.4));
+    assert(m.contains("ba"));
+    
+    KeyType k;
+    ValueType v;
+    assert(m.get(key, v) && v == 7.4);
+    
+    
+    
+    assert(m.erase("ab"));
+    assert(m.size() == 1);
+    assert(!m.empty());
+    
+    assert(m.insert("te", 9.8));
+    assert(m.contains("te"));
+    assert(m.contains("ba"));
+    assert(m.get(0, key, value));
+    assert(key == "te" && value == 9.8);
+    assert(m.get(1, key, value));
+    assert(key == "ba" && value == 7.4);
+    assert (m.size() == 2);
+    assert(!m.empty());
+    assert(m.update("ba", 10.4));
+    assert(m.get(1, key, value));
+    assert(key == "ba" && value == 10.4);
+    
+    
+    Map n;
+    
+    Map result;
+    
+    
+    Map f(m);
+    
+    
+    m.insert("fu", 9000);
+    n = m;
+    n.update("ba", 500);
+    assert(!combine(m,n,m));
+    
+    
+    m = n;
+    m.insert("bi", 90);
+    
+    m.insert("ne", 12);
+    
+    reassign(m, result);
+    
+    Map g;
+    
+    reassign(g, result);
+    
+    assert(result.empty());
+    assert(result.size() == 0);
+    
+    assert(m.size() == 5 && n.size() == 3);
+    m.swap(n);
+    assert(m.size() == 3 && n.size() == 5);
+    
+    
+    assert(m.size() == 3 && g.size() == 0);
+    m.swap(g);
+    assert(m.size() == 0 && g.size() == 3);
+    
+    Map h, i;
+    assert(h.size() == 0 && i.size()==0);
+    assert(combine(i,i,i));
+    assert(i.size() == 0);
+    
+    assert(combine(h,i, result));
+    assert(result.size()==0);
+    
+    h.insert("bo", 480);
+    h.insert("shelly", 990);
+    assert(h.size() == 2);
+    assert(combine(h,h,h));
+    assert(h.size() == 2);
+    
+    g = h;
+    assert(g.size() == 2);
+    g.update("bo", 550);
+    assert(!combine(g,h,result));
+    assert(result.size() == 1);
+    
+    assert(!combine(g,h,g));
+    assert(g.size() == 1);
+    
+    assert(m.size() == 0);
+    g.insertOrUpdate("brock", 550);
+    assert(combine(g,g,m));
+    assert(m.size() == 2);
+    
+    
+
+}
