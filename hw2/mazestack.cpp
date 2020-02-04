@@ -45,6 +45,7 @@ bool pathExists(std::string maze[], int nRows, int nCols, int sr, int sc, int er
         //if we are at the end point, return true
         if (curr.r() == er && curr.c() == ec)
         {
+            std::cout << curr.r() << curr.c();
             return true;
         }
         
@@ -96,13 +97,8 @@ bool pathExists(std::string maze[], int nRows, int nCols, int sr, int sc, int er
                 maze[curr.r()-1][curr.c()] = 'X';
             }
         }
-        
-        return false;
-        
     }
-    
-    
-    
+    //if we can't find any path return false
     return false;
 }
 //A rectangular maze of Xs and dots that represents the maze. Each string of the array is a row of the maze. Each 'X' represents a wall, and each '.' represents a walkway.
