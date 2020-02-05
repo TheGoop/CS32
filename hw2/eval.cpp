@@ -69,7 +69,7 @@ int prefixConversion(string infix, string& postfix)
                 case '-':
                 case '/':
                 case '*':
-                    if (prevChar != ')' || !islower(prevChar))
+                    if (prevChar != ')' && !islower(prevChar))
                     {
                         return INVALID;
                     }
@@ -112,65 +112,32 @@ int prefixConversion(string infix, string& postfix)
    return VALID;
 }
 
-/**
- switch (ch)
-     {
-         //case operand:
-         case '0':
-         case '1':
-         case '2':
-         case '3':
-         case '4':
-         case '5':
-         case '6':
-         case '7':
-         case '8':
-         case '9':
-             postfix += ch;
-             break;
-         case '(':
-             s.push(ch);
-             break;
-         case ')':
-             while (s.top() != '(')
-             {
-                 postfix += s.top();
-                 s.pop();
-             }
-             s.pop();
-             break;
-         case '+':
-         case '-':
-         case '/':
-         case '*':
-             while (!s.empty() && s.top()!='(' && ch <= s.top())
-             {
-                 postfix += s.top();
-                 s.pop();
-             }
-             s.push(infix[i]);
-             break;
-             
-         default:
-             return 1;
-             break;
-     }
-     while (!s.empty())
-     {
-         postfix += s.top();
-         s.pop();
-     }
- }
- */
-    
-    
-    
-    
-    
+
+std::string removeWhiteSpaces(string infix)
+{
+    string n = "";
+    for (int i = 0; i < infix.size(); i++)
+    {
+        if (infix[i] != ' ')
+        {
+            n += infix[i];
+        }
+    }
+    return n;
+}
+
+bool checkSyntax(string infix)
+{
+    for (int i = 0; i < infix.size(); i++)
+    {
+        
+    }
+    return true;
+}
 
 int evaluate(string infix, const Map& values, string& postfix, int& result)
 {
-
+    infix = removeWhiteSpaces(infix);
     //Initialize postfix to empty
     //Initialize the operator stack to empty
     int r = prefixConversion(infix, postfix);
@@ -295,3 +262,4 @@ int main()
                             pf == "a"  &&  answer == 3);*/
     cout << "Passed all tests" << endl;
 }
+
