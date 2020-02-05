@@ -126,18 +126,120 @@ std::string removeWhiteSpaces(string infix)
     return n;
 }
 
+
+// Evaluates an integer arithmetic expression
+//   If infix is a syntactically valid infix integer expression whose
+//   only operands are
+                            //single lower case letters (whether or not they
+//   appear in the values map), then postfix is set to the postfix
+//   form of the expression; otherwise postfix may or may not be
+//   changed, result is unchanged, and the function returns
+        //1.  If infix is syntactically valid but contains at least one lower
+        //    case letter operand that does not appear in the values map, then
+        //    result is unchanged and the function returns
+        //2.  If infix is syntactically valid and all its lower case operand letters
+        //    appear in the values map, then if evaluating the expression
+        //    (using for each letter in the expression the value in the map
+        //    that corresponds to it) attempts to divide by zero, then result
+        //    is unchanged and the function returns 3; otherwise, result is
+        //    set to the value of the expression and the function returns 0.
+
+
 bool checkSyntax(string infix)
 {
+    int openP = 0;
+    int closeP = 0;
+    
+    int letterCount = 0;
+    char prevChar = ' ';
     for (int i = 0; i < infix.size(); i++)
     {
+        if (infix[i] == '+' || infix[i] == '-' || infix[i] == '*' || infix[i] == '/')
+        {
+            if (i == 0 || i == infix.size()-1) //can’t come last can’t come at beginning
+            {
+                return false;
+            }
+            
+            //if not 1 letter before and a ( after
+            if (!islower(prevChar) && i+1 < infix.size() && (infix[i+1] != '(' || !islower(infix[i+1])))
+            {
+                return false;
+            }
+            
+            //if not ) before and a letter after
+            if (prevChar != ')' && i+1 < infix.size() && !islower(infix[i+1]))
+            {
+                return false;
+            }
+        }
         
+        else if (infix[i] == '(')
+        {
+            if (prevChar == ')')
+            {
+                return false;
+            }
+            openP++;
+        }
+        
+        else if (infix[i] == ')')
+        {
+            if (prevChar == '(')
+            {
+                return false;
+            }
+            closeP++;
+            if (closeP > openP)
+            {
+                return false;
+            }
+        }
+        
+        else if (islower(infix[i]))
+        {
+            if (!islower(prevChar)) //if not 2 consecutive numbers
+            {
+                if (prevChar != ')') //if it doesn't come after )
+                {
+                    if (i+1 < infix.size() && infix[i+1] != '(' && infix[i+1] != '*' && infix[i+1] != '/' && infix[i+1] != '+' && infix[i+1] != '-' ) //if it doesnt come before (
+                    {
+                        return false;
+                    }
+                }
+            }
+            letterCount ++;
+        }
+        
+        else
+        {
+            return false;
+        }
+        prevChar = infix[i];
     }
+    
+    if (letterCount == 0)
+    {
+        return false;
+    }
+    
+    if (openP != closeP)
+    {
+        return false;
+    }
+    
     return true;
 }
 
 int evaluate(string infix, const Map& values, string& postfix, int& result)
 {
     infix = removeWhiteSpaces(infix);
+    if (!checkSyntax(infix))
+    {
+        cout << "Invalid";
+        return INVALID;
+    }
+    
     //Initialize postfix to empty
     //Initialize the operator stack to empty
     int r = prefixConversion(infix, postfix);
@@ -230,12 +332,15 @@ int main()
     Map m;
     for (int k = 0; vars[k] != '#'; k++)
         m.insert(vars[k], vals[k]);
+    
+    
+    
     string pf;
     int answer;
     evaluate("a+ e", m, pf, answer);
     cout << pf << " " << answer;
     //assert(evaluate("a+ e", m, pf, answer) == 0 && pf == "ae+"  &&  answer == -6);
-    answer = 999;
+    //answer = 999;
     /**
     assert(evaluate("", m, pf, answer) == 1  &&  answer == 999);
     assert(evaluate("a+", m, pf, answer) == 1  &&  answer == 999);
