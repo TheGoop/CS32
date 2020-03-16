@@ -1,0 +1,26 @@
+//
+//  report.cpp
+//  GooberEats
+//
+//  Created by Akshay Gupta on 3/14/20.
+//  Copyright © 2020 GooberEats. All rights reserved.
+//
+
+1. StreetMap
+    load() : O(N * S)
+        Let N repesent the number of lines in mapdata.txt file. Let S represent the potential length of a line in the file.
+        The load function goes through every line of the file, so it has a time complexity of at least O(N). Aside from iterating through every line of the file, the function iterates through the line itself, using the substring function which has a time complexity based upon the length of the line, which has been defined as S. Therefore, the efficiency of the load() function is O(N * S).
+        
+    getSegmentsThatStartWith() : O(N)
+        Let N represent the number of items in a bucket.
+        This function uses the find function for two maps, one regular the other reversed. Because the structure is hashed, accessing the correct bucket is O(1). However, once we access the bucket we must check all of its contents, and since the number of items it has is N, the time complexity is O(N+N) = O(2N) = O(N).
+        
+
+2. PointToPointRouter:
+    generatePointToPointRoute():
+        I implemented the A* method of finding the shortest route.
+        This method implemented numerous data structures, the first being a priority queue of a pair of doubles to GeoCoord, and vector of pairs of doubles to GeoCoords, with a greater function that used the STL greater function for pairs of doubles to GeoCoords. The second being an unordered map of GeoCoords to GeoCoords that tracks the path and how it got to one GeoCoord from another. The final being an unordered map of GeoCoords to doubles, used to map the cost of the paths as we go deeper into the path's GeoCoords. I defined a hash function for the STL library in order to use these structures.
+
+3. DeliveryOptimizer
+    optimizeDeliveryOrder(): O(N^2)
+        I implemented the nearest neighbor approach. This takes the depot, finds the closest delivery to that, and then the closest delivery to that and so on. You start with n deliviers. You must iterate N-1 times to find the closest delivery, which requires you iterate through the vector of deliveries which is N iterations. Therefore, the time complexity is O(N*(N-1)) = O(N^2).
