@@ -44,7 +44,7 @@ int deliveryClosestToCurrentLocation(GeoCoord start, vector<DeliveryRequest> del
 
 double crowDistance(GeoCoord depot, vector<DeliveryRequest> deliveries)
 {
-    int oldCrowDistance = 0;
+    double oldCrowDistance = 0;
     oldCrowDistance += distanceEarthMiles(depot, deliveries[0].location);
     for (int i = 1; i < deliveries.size(); i++)
     {

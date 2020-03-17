@@ -1,57 +1,3 @@
-//#include <iostream>
-//#include "ExpandableHashMap.h"
-//#include "provided.h"
-//#include <functional>
-//#include <fstream>
-//
-//
-////#include <string>
-//using namespace std;
-//
-//
-//int main(int argc, const char* argv[]) {
-//
-//    StreetMap m;
-//    m.load("mapdata.txt");
-//    vector<StreetSegment> res;
-//    m.getSegmentsThatStartWith(GeoCoord("34.0718238", "-118.4525699"), res);
-//    typename std::vector<StreetSegment>::iterator p = res.begin();
-////    while (p != res.end()) {
-////        cerr << '(' << (*p).start.latitudeText << "," << (*p).start.longitudeText << ") (" << (*p).end.latitudeText << "," << (*p).end.longitudeText << ")" << (*p).name << endl;
-////        p++;
-////    }
-////    cerr << endl;
-//    PointToPointRouter test(&m);
-//
-//    GeoCoord s( "34.0625329", "-118.4470263");
-//    GeoCoord e( "34.0685657", "-118.4489289");
-//    std::list<StreetSegment> r;
-//    double dist;
-//    test.generatePointToPointRoute(s, e, r, dist);
-////    for (auto it = r.begin(); it != r.end(); it++)
-////    {
-////        cout << it->name << endl;
-////    }
-//
-//    vector<DeliveryCommand> cmds;
-//    vector<DeliveryRequest> reqs;
-//    //s is the depot, e is the end location
-//    DeliveryPlanner testing(&m);
-//    double distance;
-//    DeliveryRequest req("Pear", e);
-//    reqs.push_back(req);
-//
-//    testing.generateDeliveryPlan(s, reqs, cmds, distance);
-//    for (int i = 0; i < cmds.size(); i++)
-//    {
-//        cout << cmds[i].description() << endl;
-//    }
-//    cout << distance << endl;
-//
-//
-//
-//}
-
 #include <iostream>
 #include "ExpandableHashMap.h"
 #include "provided.h"
@@ -115,26 +61,29 @@ int main(int argc, const char* argv[]) {
     m.load(argv[1]);
     vector<StreetSegment> res;
     m.getSegmentsThatStartWith(GeoCoord("34.0718238", "-118.4525699"), res);
-//    while (p != res.end()) {
-//        cerr << '(' << (*p).start.latitudeText << "," << (*p).start.longitudeText << ") (" << (*p).end.latitudeText << "," << (*p).end.longitudeText << ")" << (*p).name << endl;
-//        p++;
-//    }
-//    cerr << endl;
+    typename std::vector<StreetSegment>::iterator p = res.begin();
+    while (p != res.end()) {
+        cerr << '(' << (*p).start.latitudeText << "," << (*p).start.longitudeText << ") (" << (*p).end.latitudeText << "," << (*p).end.longitudeText << ")" << (*p).name << endl;
+        p++;
+    }
+    cerr << endl;
     PointToPointRouter test(&m);
     list<StreetSegment> result;
     double TotalDist = 0;
     test.generatePointToPointRoute(GeoCoord("34.0732012", "-118.4491058"), GeoCoord("34.0886026", "-118.4758705"), result, TotalDist);
     typename std::list<StreetSegment> ::iterator it = result.begin();
-//    while (it != result.end()) {
-//        cerr << '(' << (*it).start.latitudeText << "," << (*it).start.longitudeText << ") (" << (*it).end.latitudeText << "," << (*it).end.longitudeText << ")" << (*it).name << endl;
-//        it++;
-//    }
-//    cerr << TotalDist << endl;
+    while (it != result.end()) {
+        cerr << '(' << (*it).start.latitudeText << "," << (*it).start.longitudeText << ") (" << (*it).end.latitudeText << "," << (*it).end.longitudeText << ")" << (*it).name << endl;
+        it++;
+    }
+    cerr << TotalDist << endl;
     DeliveryPlanner testing(&m);
     GeoCoord depot("34.0625329", "-118.4470263");
     DeliveryRequest one("Apple", GeoCoord("34.0625329", "-118.4470263"));
     DeliveryRequest two("Banana", GeoCoord("34.0625329", "-118.4470263"));
     DeliveryRequest three("Pear", GeoCoord("34.0625329", "-118.4470263"));
+    DeliveryRequest four("Peach", GeoCoord("34.0625329", "-118.4470263"));
+    DeliveryRequest five("5", GeoCoord("34.0732012", "-118.4491058"));
     DeliveryRequest six("6", GeoCoord("34.0886026", "-118.4758705"));
 
     GeoCoord test1("34.0420561", "-118.5011699");
@@ -147,10 +96,8 @@ int main(int argc, const char* argv[]) {
     GeoCoord Philip1("34.0718238", "-118.4525699");
     GeoCoord Philip2("34.0547000", "-118.4794734");
 
-    
-    DeliveryRequest four("Peach", GeoCoord("34.0625329", "-118.4470263"));
-    DeliveryRequest five("5", GeoCoord("34.0732012", "-118.4491058"));
-    GeoCoord Weyburn                      ("34.0625329", "-118.4470263");
+
+    GeoCoord Weyburn("34.0625329", "-118.4470263");
     GeoCoord Strathmore("34.0656797", "-118.4505131");
     GeoCoord Frat("34.0685657", "-118.4489289");
     GeoCoord Manning("34.0660665", "-118.4385079");
@@ -160,7 +107,7 @@ int main(int argc, const char* argv[]) {
     DeliveryRequest c1("c", Frat);
     DeliveryRequest d1("d", Manning);
     DeliveryRequest e1("e", test1);
-    DeliveryRequest f1("f", Weyburn);
+    DeliveryRequest f1("f", test2);
     DeliveryRequest g1("g", Philip1);
     DeliveryRequest h1("h", Philip2);
 
@@ -171,82 +118,65 @@ int main(int argc, const char* argv[]) {
     //request.push_back(one);
     //request.push_back(two);
     //request.push_back(three);
-                request.push_back(four);
-//    //request.push_back(five);
-                request.push_back(five);
-                request.push_back(a1);
-                request.push_back(b1);
-                request.push_back(c1);
-                request.push_back(d1);
-                request.push_back(e1);
-                request.push_back(f1);
-                request.push_back(g1);
-    
-//    request.push_back(four);
-//    request.push_back(four);
-//    request.push_back(four);
-//    request.push_back(four);
-//    request.push_back(four);
-//    request.push_back(four);
-//    request.push_back(four);
-//    DeliveryOptimizer opt(&m);
-//    double old;
-//    double n;
-//    opt.optimizeDeliveryOrder(four.location, request, old, n);
+    request.push_back(four);
+    //request.push_back(five);
+    request.push_back(five);
+    request.push_back(a1);
+    request.push_back(b1);
+    request.push_back(c1);
+    request.push_back(d1);
+    request.push_back(e1);
+    request.push_back(f1);
+    request.push_back(g1);
     testing.generateDeliveryPlan(four.location, request, commands, distanceTravelled);
-    
-    
-    
-    
     typename vector<DeliveryCommand> ::iterator itr = commands.begin();
     while (itr != commands.end()) {
         cerr << (*itr).description() << endl;
         itr++;
     }
-    
-//    DeliveryOptimizer optimizer(&m);
-//    double old_crow;
-//    double new_crow;
-//    optimizer.optimizeDeliveryOrder(d1.location, request, old_crow, new_crow);
-//    cout << endl << "NEW CROW: " << new_crow / 1 << "  OLD CROW: " << old_crow / 1 << endl;
-//    cerr << distanceTravelled << endl;
-//
-//    cerr << endl << endl << endl << "BOULEVARD TEST" << endl;
-//
-//    GeoCoord DEPOT_TEST("34.0625329", "-118.4470263");
-//    GeoCoord BOULEVARD("34.0570663", "-118.4428298");
-//    DeliveryRequest SARDINE("Sars", GeoCoord("34.0636671", "-118.4461842"));
-//    DeliveryRequest PLAZA("Salmon", GeoCoord("34.0707966", "-118.4447645"));
-//    vector<DeliveryRequest> TESTVEC;
-//    //TESTVEC.push_back(SARDINE);
-//    TESTVEC.push_back(PLAZA);
-//
-//    //optimizer.optimizeDeliveryOrder(DEPOT_TEST, TESTVEC, old_crow, new_crow);
-//    testing.generateDeliveryPlan(BOULEVARD, TESTVEC, commands, distanceTravelled);
-//
-//    itr = commands.begin();
-//    while (itr != commands.end()) {
-//        cerr << (*itr).description() << endl;
-//        itr++;
-//    }
-//    cerr << endl << "NEW CROW: " << new_crow / 1 << "  OLD CROW: " << old_crow / 1 << endl;
-//    cerr << distanceTravelled;
-//
-//    cerr << endl << endl << endl << endl << "BROXTON TEST" << endl;
-//
-//
-//    vector<DeliveryRequest> TESTVEC2;
-//    //TESTVEC.push_back(SARDINE);
-//    TESTVEC2.push_back(SARDINE);
-//
-//    //optimizer.optimizeDeliveryOrder(DEPOT_TEST, TESTVEC, old_crow, new_crow);
-//    testing.generateDeliveryPlan(DEPOT_TEST, TESTVEC2, commands, distanceTravelled);
-//
-//    itr = commands.begin();
-//    while (itr != commands.end()) {
-//        cerr << (*itr).description() << endl;
-//        itr++;
-//    }
-//    cerr << endl << "NEW CROW: " << new_crow / 1 << "  OLD CROW: " << old_crow / 1 << endl;
-//    cerr << distanceTravelled;
+    DeliveryOptimizer optimizer(&m);
+    double old_crow;
+    double new_crow;
+    optimizer.optimizeDeliveryOrder(d1.location, request, old_crow, new_crow);
+    cout << endl << "NEW CROW: " << new_crow / 1 << "  OLD CROW: " << old_crow / 1 << endl;
+    cerr << distanceTravelled << endl;
+
+    cerr << endl << endl << endl << "BOULEVARD TEST" << endl;
+
+    GeoCoord DEPOT_TEST("34.0625329", "-118.4470263");
+    GeoCoord BOULEVARD("34.0570663", "-118.4428298");
+    DeliveryRequest SARDINE("Sars", GeoCoord("34.0636671", "-118.4461842"));
+    DeliveryRequest PLAZA("Salmon", GeoCoord("34.0707966", "-118.4447645"));
+    vector<DeliveryRequest> TESTVEC;
+    //TESTVEC.push_back(SARDINE);
+    TESTVEC.push_back(PLAZA);
+
+    //optimizer.optimizeDeliveryOrder(DEPOT_TEST, TESTVEC, old_crow, new_crow);
+    testing.generateDeliveryPlan(BOULEVARD, TESTVEC, commands, distanceTravelled);
+
+    itr = commands.begin();
+    while (itr != commands.end()) {
+        cerr << (*itr).description() << endl;
+        itr++;
+    }
+    cerr << endl << "NEW CROW: " << new_crow / 1 << "  OLD CROW: " << old_crow / 1 << endl;
+    cerr << distanceTravelled;
+
+    cerr << endl << endl << endl << endl << "BROXTON TEST" << endl;
+
+
+    vector<DeliveryRequest> TESTVEC2;
+    //TESTVEC.push_back(SARDINE);
+    TESTVEC2.push_back(SARDINE);
+
+    //optimizer.optimizeDeliveryOrder(DEPOT_TEST, TESTVEC, old_crow, new_crow);
+    testing.generateDeliveryPlan(DEPOT_TEST, TESTVEC2, commands, distanceTravelled);
+
+    itr = commands.begin();
+    while (itr != commands.end()) {
+        cerr << (*itr).description() << endl;
+        itr++;
+    }
+    cerr << endl << "NEW CROW: " << new_crow / 1 << "  OLD CROW: " << old_crow / 1 << endl;
+    cerr << distanceTravelled;
 }

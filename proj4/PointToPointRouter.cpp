@@ -164,6 +164,7 @@ DeliveryResult PointToPointRouterImpl::generatePointToPointRoute(
                 }
             }
         }
+        
         return DELIVERY_SUCCESS;
     }
     
@@ -193,3 +194,16 @@ DeliveryResult PointToPointRouter::generatePointToPointRoute(
 {
     return m_impl->generatePointToPointRoute(start, end, route, totalDistanceTravelled);
 }
+
+
+//totalDistanceTravelled = 0;
+//for (auto seg = route.begin(); seg != route.end(); seg++)
+//{
+//    auto nextSeg = seg;
+//    nextSeg++;
+//    totalDistanceTravelled += distanceEarthMiles(seg->start, seg->end);
+//    if (nextSeg != route.end())
+//    {
+//        totalDistanceTravelled += distanceEarthMiles(seg->end, nextSeg->start);
+//    }
+//}
